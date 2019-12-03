@@ -1,0 +1,59 @@
+version: '3'
+services: 
+  node1:
+    image: mygeth
+    container_name: node1
+    build: 
+      context: .
+    command: --ipcpath "/root/.ethereum/geth.ipc" --port 30303
+    ports: 
+      - 15450:8545
+      - 15460:8546
+      - 10303:30303
+      - 10303:30303/udp
+      - 10304:30304/udp
+    volumes: 
+      - /etc/localtime:/etc/localtime
+      - ./node1/:/root/.ethereum/
+    environment: 
+      TZ: Asia/Beijing
+
+  node2:
+    image: mygeth
+    container_name: node2
+    build: 
+      context: .
+    command: --ipcpath "/root/.ethereum/geth.ipc" --port 30303
+    depends_on: 
+      - node1
+    ports: 
+      - 25450:8545
+      - 25460:8546
+      - 20303:30303
+      - 20303:30303/udp
+      - 20304:30304/udp
+    volumes: 
+      - /etc/localtime:/etc/localtime
+      - ./node2/:/root/.ethereum/
+    environment: 
+      TZ: Asia/Beijing
+
+  node3:
+    image: mygeth
+    container_name: node3
+    build: 
+      context: .
+    command: --ipcpath "/root/.ethereum/geth.ipc" --port 30303
+    depends_on: 
+      - node1
+    ports: 
+      - 45450:8545
+      - 45460:8546
+      - 40303:30303
+      - 40303:30303/udp
+      - 40304:30304/udp
+    volumes: 
+      - /etc/localtime:/etc/localtime
+      - ./node3/:/root/.ethereum/
+    environment: 
+      TZ: Asia/Beijing
