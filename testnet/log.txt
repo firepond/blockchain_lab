@@ -1,0 +1,15 @@
+ echo 17231195 | openssl sha256
+(stdin)= e34c4b35f82f97041d9fbc513e47bd1d3124aa7700ecb8e0ca383084a01d0bc4(Private Key)
+
+fiurepond@firepond-desktop:~$ python -m secp256k1 privkey -p -k e34c4b35f82f97041d9fbc513e47bd1d3124aa7700ecb8e0ca383084a01d0bc4
+e34c4b35f82f97041d9fbc513e47bd1d3124aa7700ecb8e0ca383084a01d0bc4
+Public key: 02fcc4d9733749cd7f5746465e370bd9e089c1b354555c966cea1b826c6589d999
+
+Address:n1dQC4PAN41xi9CLBN4chkKQMDJ5ciVpJT
+
+Transaction sent
+
+TxID: 58bae577516a32ed02e4bcd9fd91897b07aef6280a4b8b8d80522632fb87f4e7
+Address: n1dQC4PAN41xi9CLBN4chkKQMDJ5ciVpJT
+Amount: 0.001
+
