@@ -2,13 +2,14 @@ import os
 import re
 from termcolor import colored
 
+
 def generateAddress(pattern, pos):
     output = os.popen("vanitygen -r " + pattern).read()
     # print(output)
     start = re.search("Address: ", output, flags=0).span()[-1]
-    print(output[start:start + pos+1], end='')
-    print(colored(output[start + pos + 1], "red"), end='')
-    print(output[start+pos+2:start + 33])
+    print(output[start:start + pos], end='')
+    print(colored(output[start + pos], "red"), end='')
+    print(output[start + pos + 1:start + 33])
 
 
 def generatePatterns(poem):
@@ -19,12 +20,14 @@ def generatePatterns(poem):
         pattern.append( generatePrefix(i) + poem[i] + refix )
         # print(pattern[i])
     return pattern
-        
+
+
 def generatePrefix(pos):
     prefix="^1"
     for x in range(pos):
         prefix = prefix + "."
     return prefix
+
 
 def base58Cnvert(poem):
     poem = poem.replace("l", "L")
@@ -33,7 +36,6 @@ def base58Cnvert(poem):
     return poem
         
     
-
 def main():
     poem = "ToBeOrNotToBeThatIsAQuestion"
     poem = base58Cnvert(poem)
@@ -44,7 +46,8 @@ def main():
     pattern = generatePatterns(poem)
     for x in range(length): 
         # print(pattern[x])
-        generateAddress(pattern[x], x)
+        generateAddress(pattern[x], x+1)
+
 
 if __name__ == "__main__":
     # execute only if run as a script
