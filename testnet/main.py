@@ -1,7 +1,17 @@
 #!/usr/bin/python # -*- coding: UTF-8 -*-
-import base58
 import hashlib
 import bip32
+
+
+def b58encode_int(i, default_one=True):
+    '''Encode an integer using Base58'''
+    if not i and default_one:
+        return alphabet[0:1]
+    string = b""
+    while i:
+        i, idx = divmod(i, 58)
+        string = alphabet[idx:idx+1] + string
+    return string
 
 
 def bin_ripemd160(instr):
@@ -22,7 +32,7 @@ def privatekey_to_wif(privatekey):
 
     check = hash256[0:4]
     key3 = (privatekey_with_prefix + check).hex()
-    result = base58.b58encode_int(int(key3, 16))
+    result = b58encode_int(int(key3, 16))
     return result
 
 
@@ -34,12 +44,10 @@ def publickey_to_address(public_key):
     hash256 = bin_sha256(bin_sha256(version_bytes + h160pk))
     check = hash256[0:4]
     key3 = (version_bytes + h160pk + check).hex()
-    result = base58.b58encode_int(int(key3, 16))
+    result = b58encode_int(int(key3, 16))
     return result
 
 
-def base58_encode(text):
-    return base58.b58encode_int(int(text.hex(), 16))
 
 
 def address_test():
