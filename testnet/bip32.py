@@ -2,10 +2,10 @@ import hashlib
 import hmac
 import struct
 import ecdsa
+from common_tools import private_to_public
+from format_tools import privatekey_to_wif, publickey_to_address
 
 
-from secp256k1 import PrivateKey
-from binascii import hexlify, unhexlify
 from ecdsa.ecdsa import int_to_string, string_to_int
 from ecdsa.curves import SECP256k1
 from ecdsa.numbertheory import square_root_mod_prime as sqrt_mod
@@ -16,18 +16,6 @@ CURVE_GEN = ecdsa.ecdsa.generator_secp256k1
 CURVE_ORDER = CURVE_GEN.order()
 FIELD_ORDER = SECP256k1.curve.p()
 INFINITY = ecdsa.ellipticcurve.INFINITY
-
-
-def private_to_public(privateKey):
-    if(type(privateKey) == str):
-        privateKey = unhexlify(privateKey)
-    privkey = PrivateKey(privateKey)
-    compressed = privkey.pubkey.serialize()
-    uncompressed = hexlify(privkey.pubkey.serialize(
-        compressed=False)).decode('ascii')
-    # print(compressed)
-    # print(uncompressed)
-    return compressed
 
 
 def child_key_derivation_from_private(master_private_key, master_chaincode, index):
@@ -47,10 +35,11 @@ def child_key_derivation_from_private(master_private_key, master_chaincode, inde
     secret = (b'\0'*32 + int_to_string(priavte_key_int))[-32:]
     print("child key:" + str(index))
     print("private key:" + secret.hex())
-    print("wif priavte key:" + importFormat.privatekey_to_wif(secret).hex())
+    print("wif priavte key:" + privatekey_to_wif(secret))
     publicKey = private_to_public(secret)
     print("public key:" + publicKey.hex())
-    print("address:" + importFormat.publickey_to_address(publicKey).hex())
+    print("address:" + publickey_to_address(publicKey))
+    print("")
     return secret, Ir
 
 
@@ -71,5 +60,3 @@ def hmacsha512(text, key):
 
 def ser32(integer):
     return struct.pack(">L", integer)
-
-
